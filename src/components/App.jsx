@@ -1,21 +1,24 @@
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, NavLink } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import { HomePage } from '../pages/HomePage/HomePage';
 import { MoviesPage } from '../pages/MoviesPage/MoviesPage';
 
 export const App = () => {
   return (
     <div>
-      <Link to='/'>Home</Link>
-      <Link to='/movies'>Movies</Link>
+      <div>
+        <NavLink to='/'>Home</NavLink>
+        <NavLink to='/movies'>Movies</NavLink>
+      </div>
       <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route path='/movies' element={<MoviesPage />} />
+        <Route path='/' element={<HomePage />}>
+          {/* <Route path='/movie/:movieId'></Route> */}
+        </Route> 
+        <Route path='/movies' element={<MoviesPage />}>
+          {/* <Route path='/movie/:movieId'></Route> */}
+        </Route> 
       </Routes>
+      <ToastContainer autoClose={2000}/>
     </div>
   );
 };
-
-// const API_KEY = '1cf55529396093bd7165d94d7485d292';
-// const BASE_URL = 'https://api.themoviedb.org/';
-
-// https://api.themoviedb.org/3/movie/550?api_key=1cf55529396093bd7165d94d7485d292   example of api-fetch
