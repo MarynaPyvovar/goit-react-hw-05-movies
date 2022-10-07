@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import { Outlet } from 'react-router-dom';
-import { MoviesList } from 'components/MoviesList/MoviesList';
-import {fetchTrendingData} from 'API/API';
+import { fetchTrendingData } from 'API/API';
+
 import { Loader } from 'components/Loader/Loader';
+import { MoviesList } from 'components/MoviesList/MoviesList';
+
+import { PageWrapper, MainTitle, ErrorText } from './HomePageStyled';
 
 export const HomePage = () => {
     const [items, setItems] = useState([]);
@@ -30,12 +32,11 @@ export const HomePage = () => {
 
     const isData = items.length !== 0;
 
-    return (<>
-        <h1>Trending today</h1>
+    return (<PageWrapper>
+        {!error && <MainTitle>Trending today</MainTitle>}
         {loading && <Loader />}
-        {error && <p>Oops! Something went wrong :( Please, reload page and try again</p>}
-        <Outlet />
+        {error && <ErrorText>Oops! Something went wrong :( Please, reload page and try again</ErrorText>}
         {isData && <MoviesList items={items} />}
-    </>
+    </PageWrapper>
     )
 }

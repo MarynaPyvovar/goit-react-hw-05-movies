@@ -12,3 +12,8 @@ export async function fetchSearchData(query) {
     const data = await axios.get(`${BASE_URL}search/movie?api_key=${API_KEY}&query=${query}`);
     return data.data.results
 }
+
+export async function fetchDataById(id) {
+    const data = await axios.get(`${BASE_URL}movie/${id}?api_key=${API_KEY}`);
+    return data.data
+}

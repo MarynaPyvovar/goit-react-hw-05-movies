@@ -1,23 +1,56 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { Outlet, useParams } from 'react-router-dom';
+import { fetchDataById } from 'API/API';
 
-export const FilmInfo = (data) => {
-    return (<div>
-        <img src="" alt="" />
-        <h1></h1>
-        <p>User score: { }</p>
-        <h2>Overwiev</h2>
-        <p>{ }</p>
-        <h2>Genres</h2>
-        <p>{ }</p>
+import { FilmInformation, FilmPoster, Info, FilmTitle, FilmSubtitle, DetailsList, DatailsLink } from './FilmInfoStyled';
+import { ErrorText } from '../../pages/HomePage/HomePageStyled'; 
+
+export const FilmInfo = () => {
+    const { movieId } = useParams();
+    const [state, setState] = useState(null);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchMovie = async () => {
+            setError(null)
+            setState(null)
+
+        try {
+            const data = await fetchDataById(`${movieId}`)
+
+            setState(data)
+
+        } catch (error) {
+        setError(error)
+        }
+    }
+        fetchMovie();
+    }, [movieId])
+
+    if (!state) return
+    
+    const { poster_path, title, vote_average, overview, genres} = state;
+
+    return (<>
+        {error && <ErrorText>Oops! Something went wrong :( Please, choose another movie</ErrorText>}
+        <FilmInformation>
+            <FilmPoster src={poster_path} alt="Film poster" />
+            <Info>
+                <FilmTitle>{title}</FilmTitle>
+                    <p>User score: {vote_average}</p>
+                <FilmSubtitle>Overwiev</FilmSubtitle>
+                    <p>{overview}</p>
+                <FilmSubtitle>Genres</FilmSubtitle>
+                    <p>{genres.map(({name}) => `${name} `)}</p>
+            </Info>
+        </FilmInformation>
         <h3>Additional information</h3>
-        <Link to="">Cast</Link>
-        <Link to="">Rewievs</Link>
-    </div>
+        <DetailsList>
+            <DatailsLink to="">Cast</DatailsLink>
+            <DatailsLink to="">Rewievs</DatailsLink>
+        </DetailsList>
+        <Outlet />
+    </>
     )
-}
-
-FilmInfo.PropTypes = {
-    data: PropTypes.object.isRequired,
 }

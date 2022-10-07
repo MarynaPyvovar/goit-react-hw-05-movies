@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { MovieLinks, MovieLink } from './MoviesListStyled';
 
-export const MoviesList = ({items}) => {
-    return <ul>
-    {items.map(({id, title, name}) => <li key={id}>
-            <Link to={id}>{title || name}</Link>
-        </li>
-    )}
-</ul>}
+export const MoviesList = ({ items }) => {
+    return <MovieLinks>
+        {items?.map(({id, title, name}) => <li key={id}>
+                <MovieLink to={`${id}`}>{title || name}</MovieLink>
+            </li>
+        )}
+    </MovieLinks>
+}
 
 MoviesList.propTypes = {
     items: PropTypes.arrayOf(PropTypes.object.isRequired),
