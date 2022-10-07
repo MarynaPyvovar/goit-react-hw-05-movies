@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {fetchSearchData} from 'API/API';
 
@@ -8,20 +9,21 @@ import { MoviesList } from 'components/MoviesList/MoviesList';
 
 import { PageWrapper, ErrorText } from '../HomePage/HomePageStyled';
 
+
 export const MoviesPage = () => {
-  const [searchInput, setSearchInput] = useState('');
-  const [items, setItems] = useState([]);
+  const [movies, setMovies] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  
-const handleFormSubmit = input => {
-  if (input !== searchInput) {
-    setSearchInput(input)
+
+  const queryParam = searchParams.get('query') ?? '';
+
+  const changeQuery = value => {
+    setSearchParams(value !== '' ? {query: value } : {})
   }
-}
 
   useEffect(() => {
-    if (searchInput === '') {
+    if (queryParam === '') {
       return
     }
 
@@ -29,13 +31,14 @@ const handleFormSubmit = input => {
     setLoading(true)
 
     try {
-      const data = await fetchSearchData(searchInput)
+      const data = await fetchSearchData(queryParam)
 
       if (data.length === 0) {
-          return toast(`Sorry, we hadn't found images for "${searchInput}", please, enter another query :)`)
+        setMovies([])
+        return toast(`Sorry, we hadn't found movies for "${queryParam}", please, enter another query :)`)
       }
 
-      setItems([...data])
+      setMovies([...data])
 
     } catch (error) {
       setError(error)
@@ -45,16 +48,16 @@ const handleFormSubmit = input => {
     }
   }
     fetchMovies();
-  }, [searchInput])
+  }, [queryParam])
 
-  const isData = items.length > 0;
+  const isData = movies.length > 0;
 
   return (
     <PageWrapper>
-      <Searchbar onSubmit={handleFormSubmit} />
+      <Searchbar onSubmit={changeQuery} value={queryParam} />
       {loading && <Loader />}
       {error && <ErrorText>Oops! Something went wrong :( Please, reload page and try again</ErrorText>}
-      {isData && <MoviesList items={items} />}
+      {isData && <MoviesList items={movies} />}
     </PageWrapper>
   )
 }

@@ -4,8 +4,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SearchForm, SearchFormInput, SearchFormButton } from "./SearchBarStyled";
 
-export const Searchbar = ({onSubmit}) => {
-    const [searchInput, setSearchInput] = useState('')
+export const Searchbar = ({value, onSubmit}) => {
+    const [searchInput, setSearchInput] = useState(value);
 
     const handleChange = (e) => {
         setSearchInput(e.target.value)
@@ -15,7 +15,7 @@ export const Searchbar = ({onSubmit}) => {
         event.preventDefault();
         
         if (searchInput.trim() === '') {
-            return toast("Enter your search query :)");
+            toast("Enter your search query :)");
         }
         onSubmit(searchInput.trim())
     }
