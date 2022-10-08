@@ -5,7 +5,7 @@ import { MovieLinks, MovieLink } from './MoviesListStyled';
 export const MoviesList = ({ items, state }) => {
     return <MovieLinks>
         {items?.map(({id, title, name}) => <li key={id}>
-                <MovieLink to={`${id}`} state={state}>{title || name}</MovieLink>
+                <MovieLink to={`/movies/${id}`} state={state}>{title || name}</MovieLink>
             </li>
         )}
     </MovieLinks>

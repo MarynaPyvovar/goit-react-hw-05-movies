@@ -23,7 +23,7 @@ export const FilmInfo = () => {
             setState(data)
 
         } catch (error) {
-        setError(error)
+            setError(error)
         }
     }
         fetchMovie();
@@ -31,10 +31,11 @@ export const FilmInfo = () => {
 
     if (!state) return null
     
-    const { poster_path, title, vote_average, overview, genres} = state;
+    const { poster_path, title, vote_average, overview, genres } = state;
+    const isData = error || !state;
 
     return (<>
-        {error && <ErrorText>Oops! Something went wrong :( Please, choose another movie</ErrorText>}
+        {isData && <ErrorText>Oops! Something went wrong :( Please, choose another movie</ErrorText>}
         <Link to={location.state?.from ?? '/'}>Go back</Link>
         <FilmInformation>
             <FilmPoster src={poster_path} alt="Film poster" />
@@ -49,8 +50,8 @@ export const FilmInfo = () => {
         </FilmInformation>
         <h3>Additional information</h3>
         <DetailsList>
-            <DatailsLink to="">Cast</DatailsLink>
-            <DatailsLink to="">Rewievs</DatailsLink>
+            <DatailsLink to="cast">Cast</DatailsLink>
+            <DatailsLink to="reviews">Rewievs</DatailsLink>
         </DetailsList>
         <Outlet />
     </>

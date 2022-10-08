@@ -24,9 +24,11 @@ export const Cast = () => {
         fetchMovie();
     }, [movieId])
 
+    const isData = cast?.length === 0 || error;
+
     return (<ul>
-        {error && <p>No info</p>}
-        {cast?.map(({id, profile_path, character, name}) => <li key={id}>
+        {isData && <p>No info for now, we'll add it later!</p>}
+        {cast?.map(({id, profile_path, character, name}) => <li key={id/* + Date.now()*/}>
             <img src={profile_path} alt='Actor' />
             <p>{name}</p>
             <p>Character: {character}</p>

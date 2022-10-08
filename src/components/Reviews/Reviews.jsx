@@ -14,7 +14,6 @@ export const Reviews = () => {
 
         try {
             const data = await fetchReviewsById(movieId)
-            console.log('in reviews', data)
 
             setReviews(data)
 
@@ -25,8 +24,10 @@ export const Reviews = () => {
         fetchMovie();
     }, [movieId])
 
+    const isData = reviews?.length === 0 || error;
+
     return (<ul>
-        {error && <p>No info</p>}
+        {isData && <p>We don't have any reviews for this movie :(</p>}
         {reviews?.map(({id, author, content}) => <li key={id}>
             <p>Author: {author}</p>
             <p>{content}</p>
