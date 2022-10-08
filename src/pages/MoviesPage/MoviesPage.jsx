@@ -9,8 +9,7 @@ import { MoviesList } from 'components/MoviesList/MoviesList';
 
 import { PageWrapper, ErrorText } from '../HomePage/HomePageStyled';
 
-
-export const MoviesPage = () => {
+const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -62,3 +61,5 @@ export const MoviesPage = () => {
     </PageWrapper>
   )
 }
+
+export default MoviesPage

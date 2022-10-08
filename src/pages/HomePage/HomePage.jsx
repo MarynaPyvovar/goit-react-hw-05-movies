@@ -2,21 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { fetchTrendingData } from 'API/API';
 
-import { Loader } from 'components/Loader/Loader';
 import { MoviesList } from 'components/MoviesList/MoviesList';
 
 import { PageWrapper, MainTitle, ErrorText } from './HomePageStyled';
 
-export const HomePage = () => {
+const HomePage = () => {
     const [items, setItems] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const location = useLocation();
 
     useEffect(() => {
         const fetchMovies = async () => {
-            setLoading(true)
-
             try {
                 const data = await fetchTrendingData()
 
@@ -24,9 +20,6 @@ export const HomePage = () => {
 
             } catch (error) {
                 setError(error)
-            }
-            finally {
-                setLoading(false)
             }
         }
         fetchMovies();
@@ -36,9 +29,10 @@ export const HomePage = () => {
 
     return (<PageWrapper>
         {!error && <MainTitle>Trending today</MainTitle>}
-        {loading && <Loader />}
         {error && <ErrorText>Oops! Something went wrong :( Please, reload page and try again</ErrorText>}
         {isData && <MoviesList items={items} state={{from: location}} />}
     </PageWrapper>
     )
 }
+
+export default HomePage

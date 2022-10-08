@@ -1,12 +1,13 @@
+import { lazy } from "react";
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import { Layout } from './Layout/Layout';
-import { HomePage } from '../pages/HomePage/HomePage';
-import { MoviesPage } from '../pages/MoviesPage/MoviesPage';
-import { FilmInfo } from './FilmInfo/FilmInfo';
-import { Cast } from './Cast/Cast';
-import { Reviews } from './Reviews/Reviews';
+const HomePage = lazy(() => import('../pages/HomePage/HomePage'))
+const MoviesPage = lazy(() => import('../pages/MoviesPage/MoviesPage'))
+const MovieDetails = lazy(() => import('../pages/MovieDatails/MovieDatails'))
+const Cast = lazy(() => import('./Cast/Cast'))
+const Reviews = lazy(() => import('./Reviews/Reviews'))
 
 export const App = () => {
   return (
@@ -15,7 +16,7 @@ export const App = () => {
         <Route path='/' element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path='movies' element={<MoviesPage />} />
-          <Route path='movies/:movieId' element={<FilmInfo />}>
+          <Route path='movies/:movieId' element={<MovieDetails />}>
             <Route path='cast' element={<Cast />} />
             <Route path='reviews' element={<Reviews />} />
           </Route>

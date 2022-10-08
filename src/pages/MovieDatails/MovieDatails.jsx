@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { Link, Outlet, useParams, useLocation } from 'react-router-dom';
+
+import { Loader } from "components/Loader/Loader";
 import { fetchDataById } from 'API/API';
 
-import { FilmInformation, FilmPoster, Info, FilmTitle, FilmSubtitle, DetailsList, DatailsLink } from './FilmInfoStyled';
-import { ErrorText } from '../../pages/HomePage/HomePageStyled'; 
+import { FilmInformation, FilmPoster, Info, FilmTitle, FilmSubtitle, DetailsList, DatailsLink } from './MovieDetailsStyled';
+import { ErrorText } from '../HomePage/HomePageStyled'; 
 
-export const FilmInfo = () => {
+const MovieDetails = () => {
     const { movieId } = useParams();
     const [state, setState] = useState(null);
     const [error, setError] = useState(null);
@@ -38,7 +39,7 @@ export const FilmInfo = () => {
         {isData && <ErrorText>Oops! Something went wrong :( Please, choose another movie</ErrorText>}
         <Link to={location.state?.from ?? '/'}>Go back</Link>
         <FilmInformation>
-            <FilmPoster src={poster_path} alt="Film poster" />
+            <FilmPoster src={`https://image.tmdb.org/t/p/w500${poster_path}`} alt="Film poster" />
             <Info>
                 <FilmTitle>{title}</FilmTitle>
                     <p>User score: {vote_average}</p>
@@ -53,7 +54,12 @@ export const FilmInfo = () => {
             <DatailsLink to="cast">Cast</DatailsLink>
             <DatailsLink to="reviews">Rewievs</DatailsLink>
         </DetailsList>
-        <Outlet />
+        <Suspense  fallback={<Loader />}>
+            <Outlet />
+        </Suspense>
+        
     </>
     )
 }
+
+export default MovieDetails

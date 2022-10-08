@@ -1,9 +1,14 @@
+import { Suspense } from "react";
 import { Outlet } from 'react-router-dom';
+
 import { AppBar } from '../AppBar/AppBar';
+import { Loader } from "components/Loader/Loader";
 
 export const Layout = () => {
     return <>
         <AppBar />
-        <Outlet />
+        <Suspense fallback={<Loader />}>
+            <Outlet />
+        </Suspense>
     </>
 }

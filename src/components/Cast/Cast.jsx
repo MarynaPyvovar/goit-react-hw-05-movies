@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchCastById } from 'API/API';
 
-export const Cast = () => {
+const Cast = () => {
     const { movieId } = useParams();
     const [cast, setCast] = useState([]);
     const [error, setError] = useState(null);
@@ -29,7 +29,7 @@ export const Cast = () => {
     return (<ul>
         {isData && <p>No info for now, we'll add it later!</p>}
         {cast?.map(({id, profile_path, character, name}) => <li key={id/* + Date.now()*/}>
-            <img src={profile_path} alt='Actor' />
+            <img src={`https://image.tmdb.org/t/p/w200${profile_path}`} alt='Actor' />
             <p>{name}</p>
             <p>Character: {character}</p>
             </li>
@@ -37,3 +37,5 @@ export const Cast = () => {
     </ul>
     )
 }
+
+export default Cast
