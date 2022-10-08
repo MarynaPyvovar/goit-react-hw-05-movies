@@ -1,8 +1,8 @@
 import { Grid } from 'react-loader-spinner';
-import css from "../Loader/Loader.module.css"
+import { LoaderStyled } from './LoaderStyled';
 
 export const Loader = () => {
-  return <div className={css.loader}>
+  return <LoaderStyled>
     <Grid
       height="80"
       width="80"
@@ -13,5 +13,5 @@ export const Loader = () => {
       wrapperClass=""
       visible={true}
     />
-  </div>
+  </LoaderStyled>
 }
