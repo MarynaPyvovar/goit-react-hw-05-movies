@@ -17,3 +17,13 @@ export async function fetchDataById(id) {
     const data = await axios.get(`${BASE_URL}movie/${id}?api_key=${API_KEY}`);
     return data.data
 }
+
+export async function fetchCastById(id) {
+    const data = await axios.get(`${BASE_URL}movie/${id}/credits?api_key=${API_KEY}`);
+    return data.data.cast
+}
+
+export async function fetchReviewsById(id) {
+    const data = await axios.get(`${BASE_URL}movie/${id}/reviews?api_key=${API_KEY}`);
+    return data.data.results
+}

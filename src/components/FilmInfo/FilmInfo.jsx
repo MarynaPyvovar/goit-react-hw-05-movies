@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
+import { Link, Outlet, useParams, useLocation } from 'react-router-dom';
 import { fetchDataById } from 'API/API';
 
 import { FilmInformation, FilmPoster, Info, FilmTitle, FilmSubtitle, DetailsList, DatailsLink } from './FilmInfoStyled';
@@ -10,6 +10,7 @@ export const FilmInfo = () => {
     const { movieId } = useParams();
     const [state, setState] = useState(null);
     const [error, setError] = useState(null);
+    const location = useLocation();
 
     useEffect(() => {
         const fetchMovie = async () => {
@@ -17,7 +18,7 @@ export const FilmInfo = () => {
             setState(null)
 
         try {
-            const data = await fetchDataById(`${movieId}`)
+            const data = await fetchDataById(movieId)
 
             setState(data)
 
@@ -28,12 +29,13 @@ export const FilmInfo = () => {
         fetchMovie();
     }, [movieId])
 
-    if (!state) return
+    if (!state) return null
     
     const { poster_path, title, vote_average, overview, genres} = state;
 
     return (<>
         {error && <ErrorText>Oops! Something went wrong :( Please, choose another movie</ErrorText>}
+        <Link to={location.state?.from ?? '/'}>Go back</Link>
         <FilmInformation>
             <FilmPoster src={poster_path} alt="Film poster" />
             <Info>

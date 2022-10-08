@@ -13,16 +13,12 @@ export const App = () => {
     <>
       <Routes>
         <Route path='/' element={<Layout />}>
-
           <Route index element={<HomePage />} />
           <Route path='movies' element={<MoviesPage />} />
-
           <Route path=':movieId' element={<FilmInfo />}>
-            <Route path='cast' element={<Cast />}></Route>
-            <Route path='reviews' element={<Reviews />}></Route>
+            <Route path='cast' element={<Cast />} />
+            <Route path='reviews' element={<Reviews />} />
           </Route>
-          
-          
         </Route> 
       </Routes>
       <ToastContainer autoClose={2000}/>

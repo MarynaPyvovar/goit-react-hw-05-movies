@@ -1,18 +1,37 @@
-import React from 'react';
-// import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { fetchCastById } from 'API/API';
 
-export const Cast = (data) => {
+export const Cast = () => {
+    const { movieId } = useParams();
+    const [cast, setCast] = useState([]);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchMovie = async () => {
+            setError(null)
+            setCast(null)
+
+        try {
+            const data = await fetchCastById(movieId)
+
+            setCast(data)
+
+        } catch (error) {
+        setError(error)
+        }
+    }
+        fetchMovie();
+    }, [movieId])
+
     return (<ul>
-        {data.map(({id, title, name}) => <li key={id}>
-            <img src={'photo'} alt='Actor' />
-            <p>Name</p>
-            <p>Character: {'character'}</p>
+        {error && <p>No info</p>}
+        {cast?.map(({id, profile_path, character, name}) => <li key={id}>
+            <img src={profile_path} alt='Actor' />
+            <p>{name}</p>
+            <p>Character: {character}</p>
             </li>
         )}
     </ul>
     )
 }
-
-// Cast.PropTypes = {
-//     data: PropTypes.object.isRequired,
-// }

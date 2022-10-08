@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {fetchSearchData} from 'API/API';
 
@@ -15,6 +15,7 @@ export const MoviesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const location = useLocation();
 
   const queryParam = searchParams.get('query') ?? '';
 
@@ -57,7 +58,7 @@ export const MoviesPage = () => {
       <Searchbar onSubmit={changeQuery} value={queryParam} />
       {loading && <Loader />}
       {error && <ErrorText>Oops! Something went wrong :( Please, reload page and try again</ErrorText>}
-      {isData && <MoviesList items={movies} />}
+      {isData && <MoviesList items={movies} state={{from: location}} />}
     </PageWrapper>
   )
 }
