@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchReviewsById } from 'API/API';
 
+import { ReviewsList, AuthorName } from './ReviewsStyled';
+
 const Reviews = () => {
     const { movieId } = useParams();
     const [reviews, setReviews] = useState([]);
@@ -26,14 +28,14 @@ const Reviews = () => {
 
     const isData = reviews?.length === 0 || error;
 
-    return (<ul>
+    return (<ReviewsList>
         {isData && <p>We don't have any reviews for this movie :(</p>}
         {reviews?.map(({id, author, content}) => <li key={id}>
-            <p>Author: {author}</p>
+            <AuthorName>Author: {author}</AuthorName>
             <p>{content}</p>
             </li>
         )}
-    </ul>
+    </ReviewsList>
     )
 }
 

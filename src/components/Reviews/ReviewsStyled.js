@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const DetailsList = styled.ul`
-  display: flex;
+export const ReviewsList = styled.ul`
   list-style: none;
+`;
+
+export const AuthorName = styled.p`
+  font-size: 20px;
+  color: #862d59;
 `;

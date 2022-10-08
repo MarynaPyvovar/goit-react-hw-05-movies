@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchCastById } from 'API/API';
 
+import { CastList, CastItem, CastPhoto } from './CastStyled';
+
 const Cast = () => {
     const { movieId } = useParams();
     const [cast, setCast] = useState([]);
@@ -26,15 +28,17 @@ const Cast = () => {
 
     const isData = cast?.length === 0 || error;
 
-    return (<ul>
+    return (<CastList>
         {isData && <p>No info for now, we'll add it later!</p>}
-        {cast?.map(({id, profile_path, character, name}) => <li key={id/* + Date.now()*/}>
-            <img src={`https://image.tmdb.org/t/p/w200${profile_path}`} alt='Actor' />
-            <p>{name}</p>
-            <p>Character: {character}</p>
-            </li>
+        {cast?.map(({id, profile_path, character, name}) => <CastItem key={id}>
+            <CastPhoto src={`https://image.tmdb.org/t/p/w200${profile_path}`} alt='Actor' />
+            <div>
+                <p>{name}</p>
+                <p>Character: {character}</p>
+            </div>
+            </CastItem>
         )}
-    </ul>
+    </CastList>
     )
 }
 

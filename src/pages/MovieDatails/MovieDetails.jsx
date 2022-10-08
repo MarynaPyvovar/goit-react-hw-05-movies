@@ -1,10 +1,10 @@
 import React, { useState, useEffect, Suspense } from 'react';
-import { Link, Outlet, useParams, useLocation } from 'react-router-dom';
+import { Outlet, useParams, useLocation } from 'react-router-dom';
 
 import { Loader } from "components/Loader/Loader";
 import { fetchDataById } from 'API/API';
 
-import { FilmInformation, FilmPoster, Info, FilmTitle, FilmSubtitle, DetailsList, DatailsLink } from './MovieDetailsStyled';
+import { DetailsWrapper, FilmInformation, FilmPoster, Info, FilmTitle, FilmSubtitle, DetailsList, DetailsLink, BackLink } from './MovieDetailsStyled';
 import { ErrorText } from '../HomePage/HomePageStyled'; 
 
 const MovieDetails = () => {
@@ -35,9 +35,9 @@ const MovieDetails = () => {
     const { poster_path, title, vote_average, overview, genres } = state;
     const isData = error || !state;
 
-    return (<>
+    return (<DetailsWrapper>
         {isData && <ErrorText>Oops! Something went wrong :( Please, choose another movie</ErrorText>}
-        <Link to={location.state?.from ?? '/'}>Go back</Link>
+        <BackLink to={location.state?.from ?? '/'}>Go back</BackLink>
         <FilmInformation>
             <FilmPoster src={`https://image.tmdb.org/t/p/w500${poster_path}`} alt="Film poster" />
             <Info>
@@ -51,14 +51,14 @@ const MovieDetails = () => {
         </FilmInformation>
         <h3>Additional information</h3>
         <DetailsList>
-            <DatailsLink to="cast">Cast</DatailsLink>
-            <DatailsLink to="reviews">Rewievs</DatailsLink>
+            <DetailsLink to="cast">Cast</DetailsLink>
+            <DetailsLink to="reviews">Rewievs</DetailsLink>
         </DetailsList>
         <Suspense  fallback={<Loader />}>
             <Outlet />
         </Suspense>
         
-    </>
+    </DetailsWrapper>
     )
 }
 
