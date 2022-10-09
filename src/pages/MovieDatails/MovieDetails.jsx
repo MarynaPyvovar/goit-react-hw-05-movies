@@ -34,10 +34,11 @@ const MovieDetails = () => {
     
     const { poster_path, title, vote_average, overview, genres } = state;
     const isData = error || !state;
+    const backLink = location.state?.from ?? '/movies';
 
     return (<DetailsWrapper>
         {isData && <ErrorText>Oops! Something went wrong :( Please, choose another movie</ErrorText>}
-        <BackLink to={location.state?.from ?? '/'}>Go back</BackLink>
+        <BackLink to={backLink}>Go back</BackLink>
         <FilmInformation>
             <FilmPoster src={`https://image.tmdb.org/t/p/w500${poster_path}`} alt="Film poster" />
             <Info>
@@ -51,8 +52,8 @@ const MovieDetails = () => {
         </FilmInformation>
         <h3>Additional information</h3>
         <DetailsList>
-            <DetailsLink to="cast">Cast</DetailsLink>
-            <DetailsLink to="reviews">Rewievs</DetailsLink>
+            <DetailsLink to="cast" state={{from: backLink}}>Cast</DetailsLink>
+            <DetailsLink to="reviews" state={{from: backLink}}>Rewievs</DetailsLink>
         </DetailsList>
         <Suspense  fallback={<Loader />}>
             <Outlet />
